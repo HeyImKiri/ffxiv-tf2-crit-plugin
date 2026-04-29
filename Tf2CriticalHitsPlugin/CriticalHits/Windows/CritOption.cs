@@ -32,7 +32,6 @@ public class CritOption : ISelectable, IDrawable
         this.dialogManager = dialogManager;
     }
 
-
     public IDrawable Contents => this;
 
     public void DrawLabel()
@@ -68,7 +67,8 @@ public class CritOption : ISelectable, IDrawable
         }
     }
 
-    private static void DrawConfigModule(CriticalHitsConfigOne.ConfigModule config, FileDialogManager dialogManager)
+    // 🔧 FIX: method must be unsafe because UIGlobals uses pointers internally
+    private static unsafe void DrawConfigModule(CriticalHitsConfigOne.ConfigModule config, FileDialogManager dialogManager)
     {
         InfoBox.Instance.AddTitle(config.GetModuleDefaults().SectionLabel)
                .StartConditional(config.GetModuleDefaults().SectionNote is not null)
@@ -131,7 +131,6 @@ public class CritOption : ISelectable, IDrawable
                .AddButton("Test configuration", () => CriticalHitsModule.GenerateTestFlyText(config))
                .Draw();
     }
-
 
     private static Vector4 GetJobColor(ClassJob classJob) => classJob.Role switch
     {
