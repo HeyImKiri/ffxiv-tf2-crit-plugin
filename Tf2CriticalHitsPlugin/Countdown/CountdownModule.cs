@@ -33,7 +33,7 @@ public class CountdownModule : IDisposable
         var firstModule = config.modules
                            .Where(m => m.Enabled)
                            .Where(m => m.ValidForCountdown(state.StartingValue))
-                           .FirstOrDefault(m => m.ValidForTerritory(Service.ClientState.TerritoryType));
+                           .FirstOrDefault(m => m.ValidForTerritory((ushort)Service.ClientState.TerritoryType));
 
         if (firstModule is null) return;
         var otherModules = config.modules
@@ -42,7 +42,7 @@ public class CountdownModule : IDisposable
                                  .Where(m => m.PlayWithOtherSounds)
                                  .Where(m => m.Id.Value != firstModule.Id.Value)
                                  .Where(m => m.ValidForCountdown(state.StartingValue))
-                                 .Where(m => m.ValidForTerritory(Service.ClientState.TerritoryType));
+                                 .Where(m => m.ValidForTerritory((ushort)Service.ClientState.TerritoryType));
         foreach (var module in new[] { firstModule }.Concat(otherModules))
         {
             if (!state.CountingDown || state.CountDownValue > module.DelayUntilCountdownHits.Value ||
@@ -61,7 +61,7 @@ public class CountdownModule : IDisposable
                            .Where(m => m.Enabled)
                            .Where(m => !m.DelayPlay)
                            .Where(m => m.ValidForCountdown(state.StartingValue))
-                           .FirstOrDefault(m => m.ValidForTerritory(Service.ClientState.TerritoryType));
+                           .FirstOrDefault(m => m.ValidForTerritory((ushort)Service.ClientState.TerritoryType));
 
         if (module is null) return;
         SoundEngine.PlaySound(module.FilePath.Value, module.ApplySfxVolume, module.Volume.Value,
